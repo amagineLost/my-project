@@ -1,17 +1,21 @@
 const express = require('express');
 const cors = require('cors');
 const fs = require('fs');
+const path = require('path');
 const app = express();
 const PORT = process.env.PORT || 3000;
 
 // CORS configuration
 const corsOptions = {
-    origin: 'https://amaginelost.github.io',
-    optionsSuccessStatus: 200
+    origin: 'https://amaginelost.github.io', // Allow requests from your GitHub Pages domain
+    optionsSuccessStatus: 200 // Some legacy browsers (IE11, various SmartTVs) choke on 204
 };
 
 app.use(cors(corsOptions));
 app.use(express.json());
+
+// Serve static files from the "public" directory
+app.use(express.static(path.join(__dirname, 'public')));
 
 let scripts = [];
 
