@@ -1,0 +1,10 @@
+[
+  {
+    "title": "Sample Script 1",
+    "content": "function helloWorld() {\n    console.log(\"Hello, w!\");\n}"
+  },
+  {
+    "title": "Sample Script 2",
+    "content": "function add(a, b) {\n    return a + b;\n}"
+  }
+]
