@@ -4,7 +4,13 @@ const fs = require('fs');
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-app.use(cors());
+// CORS configuration
+const corsOptions = {
+    origin: 'https://amaginelost.github.io',
+    optionsSuccessStatus: 200
+};
+
+app.use(cors(corsOptions));
 app.use(express.json());
 
 let scripts = [];
@@ -30,10 +36,6 @@ app.post('/api/scripts', (req, res) => {
         }
         res.status(200).send('Scripts updated successfully');
     });
-});
-
-app.get('/', (req, res) => {
-    res.send('Server is running.');
 });
 
 app.listen(PORT, () => {
