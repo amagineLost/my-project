@@ -1,30 +1,38 @@
 const express = require('express');
-const bodyParser = require('body-parser');
-const fs = require('fs');
 const cors = require('cors');
+const fs = require('fs');
 const app = express();
+const PORT = process.env.PORT || 3000;
 
 app.use(cors());
-app.use(bodyParser.json());
+app.use(express.json());
 
-// Load scripts from a JSON file
-let scripts = JSON.parse(fs.readFileSync('scripts.json', 'utf8'));
+let scripts = [];
 
-// Endpoint to get scripts
+fs.readFile('scripts.json', 'utf8', (err, data) => {
+    if (err) {
+        console.error('Error reading scripts.json:', err);
+        return;
+    }
+    scripts = JSON.parse(data);
+});
+
 app.get('/api/scripts', (req, res) => {
     res.json(scripts);
 });
 
-// Endpoint to update scripts
 app.post('/api/scripts', (req, res) => {
     scripts = req.body;
-    fs.writeFileSync('scripts.json', JSON.stringify(scripts, null, 2));
-    res.status(200).send('Scripts updated');
+    fs.writeFile('scripts.json', JSON.stringify(scripts, null, 2), 'utf8', (err) => {
+        if (err) {
+            console.error('Error writing to scripts.json:', err);
+            return res.status(500).send('Internal Server Error');
+        }
+        res.status(200).send('Scripts updated successfully');
+    });
 });
 
-// Start the server
-const port = process.env.PORT || 3000;
-app.listen(port, () => {
-    console.log(`Server is running on port ${port}`);
+app.listen(PORT, () => {
+    console.log(`Server running on port ${PORT}`);
 });
 
