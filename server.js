@@ -14,11 +14,7 @@ fs.readFile('scripts.json', 'utf8', (err, data) => {
         console.error('Error reading scripts.json:', err);
         return;
     }
-    try {
-        scripts = JSON.parse(data);
-    } catch (parseErr) {
-        console.error('Error parsing scripts.json:', parseErr);
-    }
+    scripts = JSON.parse(data);
 });
 
 app.get('/api/scripts', (req, res) => {
